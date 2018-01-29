@@ -1,0 +1,20 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.Header{
+	background-color: red;
+	height: 25vh;
+}
+
+.Body{
+	background-color: green;
+	height: 50vh;
+}
+
+.Footer{
+	background-color: blue;
+	height: 25vh;
+}
