@@ -35,4 +35,24 @@ We're going to need these two dependencies to work with React. React itself will
 
 ### Basic Setup
 
-Coming soon...
+Until we implement a backend such as Java Spring, we will be using the CDN links for Babel, React and ReactDOM for simplicities sake. We're also going to use the development builds of React and ReactDOM for debugging purposes.
+
+Put these 3 scripts in the <code><head></code> of an .html file and you'll be ready to start working with React!!!
+
+Babel:
+
+<code>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</code>
+
+React:
+
+<code>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+</code>
+
+ReactDOM:
+
+<code>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>	
+</code>
