@@ -13,16 +13,16 @@ button{
 }
 
 .header{
-	background-color: red;
+	background-color: rgb(24,24,24);
 	height: 25vh;
 }
 
 .body{
-	background-color: green;
+	background-color: rgb(64,64,64);
 	height: 50vh;
 }
 
 .footer{
-	background-color: blue;
+	background-color: rgb(32,32,32);
 	height: 25vh;
 }

@@ -26,16 +26,17 @@ class Root extends React.Component{
 				"response":"Alright, geez."
 			});
 		},4000);
+
 	}
 
 	render(){
 		return (
 			<div className="root">
-				<h1>{this.state.title}</h1>
 				<h1>{this.state.reply}</h1>
-				<Header reply={this.state.sibling} stuff={this.state.header} />
-				<Body reply={this.state.response} callMama={()=>{this.answer();}} stuff={this.state.body} />
-				<Footer stuff={this.state.footer} />
+
+				<Header reply={this.state.sibling} />
+				
+				<Body callMama={()=>{this.answer();}} stuff={this.state.body} />
 			</div>
 		);
 	}

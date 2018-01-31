@@ -3,24 +3,29 @@ class Register extends React.Component{
 		super(props);
 		
 		this.state={
-			firstName:"",
-			lastName:""
+			firstName:""
 		};
 	}
 
 	submit(event){
 		console.log(this.state.firstName);
+
 		event.preventDefault();
+		return false;
 	}
 
-	change(event){
-
+	setFirstName(event){		
+		this.setState({
+			firstName:event.target.value
+		});
 	}
+
 
 	render(){
 		return (
-			<form onSubmit={this.submit}>
+			<form onSubmit={()=>{this.submit();}}>
 				<input
+					onChange={(e)=>{this.setFirstName(e);}}
 					value={this.state.firstName}
 					type="text"
 				/>
