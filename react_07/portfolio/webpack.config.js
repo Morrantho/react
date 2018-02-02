@@ -4,6 +4,7 @@ module.exports = {
     entry: {
         app:[
             './src/main/resources/static/js/Projects.js',
+            './src/main/resources/static/js/Users.js',
             './src/main/resources/static/js/App.js',
         ]
     },
