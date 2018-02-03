@@ -8,10 +8,9 @@ class Register extends React.Component{
 	}
 
 	submit(event){
-		console.log(this.state.firstName);
-
 		event.preventDefault();
-		return false;
+
+		
 	}
 
 	setFirstName(event){		
@@ -20,10 +19,9 @@ class Register extends React.Component{
 		});
 	}
 
-
 	render(){
 		return (
-			<form onSubmit={()=>{this.submit();}}>
+			<form onSubmit={(e)=>{this.submit(e);}}>
 				<input
 					onChange={(e)=>{this.setFirstName(e);}}
 					value={this.state.firstName}
