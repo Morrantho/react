@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(78);
-	module.exports = __webpack_require__(252);
+	module.exports = __webpack_require__(254);
 
 
 /***/ }),
@@ -8349,6 +8349,9 @@
 	var ReactRouterDOM = __webpack_require__(38);
 	var Axios = __webpack_require__(226);
 	
+	var Binder = __webpack_require__(252);
+	var BoundInput = __webpack_require__(253);
+	
 	var Users = function (_React$Component) {
 		_inherits(Users, _React$Component);
 	
@@ -8359,14 +8362,62 @@
 	
 			_this.state = {
 				"users": []
+	
+				// "user":{
+				// 	"email":"",
+				// 	"firstName":""
+				// }
 			};
+	
+			Binder(_this, "user", {
+				"email": "",
+				"firstName": ""
+			});
 			return _this;
 		}
 	
 		_createClass(Users, [{
+			key: 'create',
+			value: function create(e) {
+				var _this2 = this;
+	
+				e.preventDefault();
+	
+				Axios.post("/users/new", this.state.user).then(function (user) {
+					user = user["data"];
+	
+					user = React.createElement(
+						'tr',
+						{ key: user.id + 1000 },
+						React.createElement(
+							'td',
+							null,
+							user.email
+						),
+						React.createElement(
+							'td',
+							null,
+							user.firstName
+						)
+					);
+	
+					_this2.state.users.push(user);
+					_this2.setState({ "users": _this2.state.users });
+	
+					_this2.setState({
+						"user": {
+							"email": "",
+							"firstName": ""
+						}
+					});
+				}).catch(function (err) {
+					return console.log(err);
+				});
+			}
+		}, {
 			key: 'init',
 			value: function init() {
-				var _this2 = this;
+				var _this3 = this;
 	
 				Axios.get("/users").then(function (data) {
 					var users = data["data"];
@@ -8388,7 +8439,7 @@
 						);
 					}
 	
-					_this2.setState({
+					_this3.setState({
 						"users": users
 					});
 				}).catch(function (err) {
@@ -8398,32 +8449,54 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this4 = this;
+	
 				if (this.state.users) {
 					return React.createElement(
-						'table',
+						'div',
 						null,
 						React.createElement(
-							'thead',
+							'table',
 							null,
 							React.createElement(
-								'tr',
+								'thead',
 								null,
 								React.createElement(
-									'th',
+									'tr',
 									null,
-									'Email:'
-								),
-								React.createElement(
-									'th',
-									null,
-									'First Name:'
+									React.createElement(
+										'th',
+										null,
+										'Email:'
+									),
+									React.createElement(
+										'th',
+										null,
+										'First Name:'
+									)
 								)
+							),
+							React.createElement(
+								'tbody',
+								null,
+								this.state.users
 							)
 						),
+						React.createElement('br', null),
 						React.createElement(
-							'tbody',
+							'h1',
 							null,
-							this.state.users
+							'Register:'
+						),
+						React.createElement('br', null),
+						React.createElement(
+							'form',
+							{ onSubmit: function onSubmit(e) {
+									_this4.create(e);
+								} },
+							React.createElement(BoundInput, { parent: this, model: "user", path: "email" }),
+							React.createElement(BoundInput, { parent: this, model: "user", path: "firstName" }),
+							React.createElement('input', { type: 'submit', value: 'Register' })
 						)
 					);
 				}
@@ -27220,6 +27293,81 @@
 
 /***/ }),
 /* 252 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	// Shoves a model onto a components state.
+	// Bind callback looks up an attribute on that model and setState's the original component.
+	function Binder(component, key, data) {
+		data.bind = function (attr, e) {
+			component.state[key][attr] = e.target.value;
+	
+			component.setState({
+				key: component.state[key]
+			});
+	
+			console.log(component.state[key]);
+		};
+	
+		component.state[key] = data;
+	}
+	
+	module.exports = Binder;
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	// Takes a parent component, a model name to lookup in
+	// the parent component's state, and the path / attribute
+	// that is being set on that model via the <input />
+	
+	var React = __webpack_require__(2);
+	
+	var BoundInput = function (_React$Component) {
+		_inherits(BoundInput, _React$Component);
+	
+		function BoundInput(props) {
+			_classCallCheck(this, BoundInput);
+	
+			var _this = _possibleConstructorReturn(this, (BoundInput.__proto__ || Object.getPrototypeOf(BoundInput)).call(this, props));
+	
+			_this.parent = props.parent;
+			_this.model = props.parent.state[props.model];
+			// this.name   = props.name;
+			_this.path = props.path;
+			return _this;
+		}
+	
+		_createClass(BoundInput, [{
+			key: "render",
+			value: function render() {
+				var _this2 = this;
+	
+				return React.createElement("input", { type: "text", value: this.parent.state[this.props.model][this.path], name: this.props.path, onChange: function onChange(e) {
+						_this2.model.bind(_this2.props.path, e);
+					} });
+			}
+		}]);
+	
+		return BoundInput;
+	}(React.Component);
+	
+	module.exports = BoundInput;
+
+/***/ }),
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

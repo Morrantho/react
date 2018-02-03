@@ -69,6 +69,13 @@ public class User{
 		this.updatedAt = new Date();
 	}
 
+	public User(String email,String firstName){
+		this.email=email;
+		this.firstName=firstName;
+		this.createdAt=new Date();
+		this.updatedAt=new Date();
+	}
+
 	public void setEmail(String email){this.email=email;}
 	public String getEmail(){return email;}
 
